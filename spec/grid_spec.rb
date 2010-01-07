@@ -81,5 +81,14 @@ describe "A document's grid" do
       colors.fill_color.should   == [0.8,1.0,0.0]
       colors.stroke_color.should == [1.0,0.8,0.0]
     end
+    
+    it "should show grid all cell names" do
+      @pdf.grid.show_all
+      
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+      text.strings.first.should == "0,0"
+      text.strings.last.should  == [@pdf.grid.rows - 1 , @pdf.grid.columns - 1].join(',')
+      text.strings.count.should == @pdf.grid.columns * @pdf.grid.rows
+    end
   end
 end
