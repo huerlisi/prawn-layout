@@ -58,9 +58,11 @@ module Prawn
 
       # Diagnostic tool to show all of the grids.  Defaults to gray.
       def show_all(color = "CCCCCC")
-        self.rows.times do |i|
-          self.columns.times do |j|
-            pdf.grid(i,j).show(color)
+        pdf.repeat :all do
+          self.rows.times do |i|
+            self.columns.times do |j|
+              pdf.grid(i,j).show(color)
+            end
           end
         end
       end

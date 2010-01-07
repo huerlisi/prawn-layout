@@ -90,5 +90,20 @@ describe "A document's grid" do
       text.strings.last.should  == [@pdf.grid.rows - 1 , @pdf.grid.columns - 1].join(',')
       text.strings.count.should == @pdf.grid.columns * @pdf.grid.rows
     end
+
+    it "should show grid cells on all pages" do
+      @pdf.grid.show_all
+      
+      page_count = 5
+      
+      (page_count - 1).times do
+        @pdf.start_new_page
+      end
+
+      text = PDF::Inspector::Text.analyze(@pdf.render)
+      text.strings.first.should == "0,0"
+      text.strings.last.should  == [@pdf.grid.rows - 1 , @pdf.grid.columns - 1].join(',')
+      text.strings.count.should == @pdf.grid.columns * @pdf.grid.rows * page_count
+    end
   end
 end
